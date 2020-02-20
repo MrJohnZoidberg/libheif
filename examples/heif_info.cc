@@ -197,7 +197,20 @@ int main(int argc, char** argv)
     int primary = heif_image_handle_is_primary_image(handle);
 
     printf("image: %dx%d (id=%d)%s\n",width,height,IDs[i], primary ? ", primary" : "");
-
+    
+    if (num_blocks >= 1) {
+        printf("  number of metadata: %d\n", num_blocks);
+        
+        heif_image_handle_get_list_of_metadata_block_IDs(handle, "mime", metadataIDs, num_blocks);
+        
+        printf("  metadata size: %zu\n", heif_image_handle_get_metadata_size(handle, metadataIDs[i]));
+        
+        char data[] = "";
+        heif_image_handle_get_metadata(handle, metadataIDs[i], data);
+        
+        
+        printf("  metadata: %s\n", data);
+    }
 
     // --- thumbnails
 
